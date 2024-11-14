@@ -1,0 +1,17 @@
+import os
+import base64
+from cryptography.fernet import Fernet
+from io import StringIO
+import base64, hashlib
+data = "gAAAAABnNMzMiY09zC7QtY2VTLLH1w9OfEE1Aqfo-p-M9233YGr0p54f29c21JXAHyf40tZIM5k6j3iWucq2ScoMRXqBlYrTI9dGAkG1OkBkMewSrutqBdCzMxmYoluVGNMd5UiVtTiYMbIRUJ0ctRQTkJDtEHZ56GiMyQvV0HuGpi8imaNSkXI3haVjI3YDMpJDK6b9XkMPoOa51m6bMq4qrZWZ5ICkOvR_3nAS26_oLSA3NkSM2vdr_YBO6LF2oFsrXeU_WJKeFwPof4RQH-UlB_zgoZH4R9NrrM8Zg-DzCpHiE8ZHCJngDllYqaXVqA0x2_8rCWMvgzJktLhuGtlDvvalpaKntEu5B7XH01M6skx34j61OQlyuzuqMc0Bf_PNDT_ZJkbfDks6iByaXxL9jaiScQX_IA_O7733HAGU0QRe7haRBo3CISN7BoLyMrYoZfFwiurzTH-FYh1cHI7W1JhO1S8ULydJ9UjSaARGHZVzsEA325LfISLzGfvkzHdDhI2pAHt3ZZigDeND8zew3jvGCZevW6riAb9KNvlPy3-WxuWbdVoxaCq23jFfNSDF2YCWXasyEnnYAIfYOnRhYSodp7mJ1CrEJ_UgoI5iCjM2-GulADFlvfhdqgnYe68l1WHOaD3iGweXX4ttlr_lXRlATu2iDUrfr6-xdCuTVNT7ncLV4TH_hArd5qL-Y6tUgUqzlVh1Y0Y_KsbMmGu6l2Jj-6fzwWyL0Xe2_bQMv2rgdkc4UzlwgHI9ccFJJN--2vIrS9iSVKWyJq_kDLvXWcoLimok0oR4wN5ttW3RdPbgmSYsb62YVSyg5BURx92BZvRbJDXZHKO_Dmcnia73vQuSV3vYh2Hv6933VcEihL6xZ6tBAe9IxG8v2vxbpNbuBmoQHaQNBCnQwpTpj_K90-UrnRTsp8lpwArHaNYTtT0CgMs4oGxSeKpOA56hu4LPOeenA0eQPCtjbF_Xz7Ww8YXR-Bg1rkZ8zgtxFUBfTt8FaB_5nrHWX0LMlu71Z6R4oBgTHy5SqFUQ_KUWVRhDrHR_-fO7PJ9EDuuuMCTV056fJ6n4jLX-vbHc830s_vAANOBtBmnLQAjVQaRaseOR5bnrL2-hpYU2fv63bYpB97FmJzStLPSYrwa_8D62uFvvFz52yT6OpyTwOhFaErktQQSrpK-8xnzZFRjvUWo38XICs4fRWmNOeMAaPgaL9VB2PFrHGS_Uy337MkEmtjAjW-APyXkRmCwxcejFFnoouIX2ZzGfsYaJpCXRU3GI7R8lKUg2Ys9v3i95l5w7nnzG6ydmaJKWi7MW0-BkVCCS2myoXj7ytxHnXHUhED1Yqpm8XdLff0D4wfJ7H6lCcsyzsD4h5PNPy0Pq22ZSeTx8oup3P-1ZLab_pM7Bu2E1gnNc2EzO7lc9IsZOBRIRyoQvqma28jbLBZ39Qw0ETbZmuuaBzRZIOR5xFXuKDLOfJnU1DplzkqWLSduk70SlmWZjQUYF41MLwVE2o3uooptIlFTzWm4k1hvsFtHotGHPFwT6qomYL88a251oE1FzEALmjxD4L6V81D6vbYI7krdQEKFkeJONBGc3a6wtNGzrGVzbykf5PFJP80ncIyUTRpqaz0DhrOzLLr2SHy0Kz9fuTFHhxknmc1HCBr4pKLvRcxROaMtxU0C5EzbapCUuQTRmQ8aMdoRj-A3j_vAyk5m0WTw6YuPSYbG2GOvCtlxhIBgK16_o-6dToPlZ_VOv3RuqnQ8xhZdHBg=="
+password= "........."        
+    
+def load_with_password(data:str, password:str)->bool:
+    key = hashlib.md5(password.encode()).hexdigest()
+    key = base64.urlsafe_b64encode(key.encode()).decode()
+    stream=StringIO(Fernet(key).decrypt(data).decode())
+    for k,v in [ l.split("=",1) for l in stream.read().splitlines() if '=' in l]:
+        os.environ[k]=v
+        
+        
+load_with_password(data, password=password)
